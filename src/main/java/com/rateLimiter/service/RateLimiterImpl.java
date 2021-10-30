@@ -7,13 +7,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class RateLimiterImpl implements RateLimiter {
 
-    @Autowired
+    final
     TokenRateLimiterImpl tokenRateLimiter;
+
+    public RateLimiterImpl(TokenRateLimiterImpl tokenRateLimiter) {
+        this.tokenRateLimiter = tokenRateLimiter;
+    }
 
     @Override
     public boolean checkRateLimiter(String key, String type) {
         switch (type) {
-            case RateLimitConstant.tokenType:
+            case RateLimitConstant.TOKEN_TYPE:
                 return tokenRateLimiter.checkRateLimiter(key);
             default:
                 return true;

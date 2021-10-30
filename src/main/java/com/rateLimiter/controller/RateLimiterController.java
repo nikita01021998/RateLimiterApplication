@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class RateLimiterController {
 
-    @Autowired
+    final
     RateLimiter rateLimiter;
+
+    public RateLimiterController(RateLimiter rateLimiter) {
+        this.rateLimiter = rateLimiter;
+    }
 
     @RequestMapping(
             value = "/rateLimiter/{key}/{type}",
