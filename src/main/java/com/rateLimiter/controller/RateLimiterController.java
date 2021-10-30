@@ -30,7 +30,7 @@ public class RateLimiterController {
             if (result) {
                 return new BaseResponse(0, "Success");
             }
-            return new BaseResponse(0, "Rate limit accessed");
+            return new BaseResponse(0, "Rate limit exceeded");
         } catch (Exception e) {
             return new BaseResponse(1, "Something went wrong.");
         }
