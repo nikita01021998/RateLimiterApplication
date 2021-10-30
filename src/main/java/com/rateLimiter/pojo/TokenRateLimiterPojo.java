@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TokenRateLimiterPojo {
     @JsonProperty("key")
-    String key;
+    private String key;
     @JsonProperty("type")
-    String type;
+    private String type;
 }
