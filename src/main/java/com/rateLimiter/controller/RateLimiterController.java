@@ -28,7 +28,7 @@ public class RateLimiterController {
             }
             return new BaseResponse(0, "Rate limit accessed");
         } catch (Exception e) {
-            return new com.swiggy.alchemist.pojo.BaseResponse(1, "Something went wrong.");
+            return new BaseResponse(1, "Something went wrong.");
         }
     }
 }
