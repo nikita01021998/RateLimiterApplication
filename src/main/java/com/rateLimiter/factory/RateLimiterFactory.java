@@ -5,20 +5,25 @@ import com.rateLimiter.service.RateLimiter;
 import com.rateLimiter.service.impl.LeakyBucketRateLimiterImpl;
 import com.rateLimiter.service.impl.SlidingWindowRateLimiterImpl;
 import com.rateLimiter.service.impl.TokenRateLimiterImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RateLimiterFactory {
 
-    @Autowired
+    final
     TokenRateLimiterImpl tokenRateLimiter;
 
-    @Autowired
+    final
     LeakyBucketRateLimiterImpl leakyBucketRateLimiter;
 
-    @Autowired
+    final
     SlidingWindowRateLimiterImpl slidingWindowRateLimiter;
+
+    public RateLimiterFactory(SlidingWindowRateLimiterImpl slidingWindowRateLimiter, TokenRateLimiterImpl tokenRateLimiter, LeakyBucketRateLimiterImpl leakyBucketRateLimiter) {
+        this.slidingWindowRateLimiter = slidingWindowRateLimiter;
+        this.tokenRateLimiter = tokenRateLimiter;
+        this.leakyBucketRateLimiter = leakyBucketRateLimiter;
+    }
 
 
     public RateLimiter getRateLimiterInstance(String type) {

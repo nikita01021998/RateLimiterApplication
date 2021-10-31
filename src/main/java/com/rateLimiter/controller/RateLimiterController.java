@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class RateLimiterController {
 
 
-    @Autowired
     public RateLimiterController(RateLimiterFactory rateLimiterFactory) {
         this.rateLimiterFactory = rateLimiterFactory;
     }
