@@ -4,5 +4,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface RateLimiter {
-    boolean isRequestPossible(String key);
+    boolean isRequestPossible(String key) throws InterruptedException;
 }

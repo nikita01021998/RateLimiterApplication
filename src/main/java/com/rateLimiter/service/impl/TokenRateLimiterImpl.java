@@ -10,9 +10,11 @@ import java.util.HashMap;
 
 @Service
 public class TokenRateLimiterImpl implements RateLimiter {
-    HashMap<String, Pair<Integer, Long>> rateLimiterStore = new HashMap<>();
-    @Value("${rate.limiter.max.bucket.size}")
+
+    @Value("${token.rate.limiter.max.bucket.size}")
     private int rateLimiterBucketSize;
+
+    HashMap<String, Pair<Integer, Long>> rateLimiterStore = new HashMap<>();
 
     @Override
     public boolean isRequestPossible(String key) {
@@ -22,9 +24,9 @@ public class TokenRateLimiterImpl implements RateLimiter {
             Pair<Integer, Long> p = rateLimiterStore.get(key);
             Integer currentCount = p.getKey();
             Long lastUpdate = p.getValue();
-            Date d1 = new Date(System.currentTimeMillis());
-            Date d2 = new Date(lastUpdate);
-            long diff = d2.getTime() - d1.getTime();
+            Date now = new Date(System.currentTimeMillis());
+            Date lastUpdateDate = new Date(lastUpdate);
+            long diff = lastUpdateDate.getTime() - now.getTime();
             long diffMinutes = diff / (60 * 1000);
             if (diffMinutes < 0) {
                 rateLimiterStore.put(key, new Pair<>(rateLimiterBucketSize, System.currentTimeMillis()));
