@@ -1,8 +1,9 @@
-package com.swiggy.alchemist.pojo;
+package com.rateLimiter.pojo;
 
 /**
- * Created by RAVISINGH on 28/09/16.
+ * Created by Nikita.
  */
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenRateLimiterPojo {
+public class RateLimiterPojo {
     @JsonProperty("key")
     private String key;
-    @JsonProperty("type")
-    private String type;
 }

@@ -1,8 +1,9 @@
 package com.rateLimiter.controller;
 
-import com.rateLimiter.service.RateLimiter;
-import com.swiggy.alchemist.pojo.BaseResponse;
+import com.rateLimiter.factory.RateLimiterFactory;
+import com.rateLimiter.pojo.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,21 +13,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class RateLimiterController {
 
-    final
-    RateLimiter rateLimiter;
 
-    public RateLimiterController(RateLimiter rateLimiter) {
-        this.rateLimiter = rateLimiter;
+    @Autowired
+    public RateLimiterController(RateLimiterFactory rateLimiterFactory) {
+        this.rateLimiterFactory = rateLimiterFactory;
     }
 
+    final
+    RateLimiterFactory rateLimiterFactory;
+
+    @Value("${rate.limiter.type}")
+    String type;
+
     @RequestMapping(
-            value = "/rateLimiter/{key}/{type}",
+            value = "/requestPossible/{key}",
             method = RequestMethod.GET
     )
     @ResponseBody
-    public BaseResponse checkRateLimit(@PathVariable(value = "key") String key, @PathVariable(value = "type") String type) {
+    public BaseResponse isRequestPossible(@PathVariable(value = "key") String key) {
         try {
-            boolean result = rateLimiter.checkRateLimiter(key, type);
+            boolean result = rateLimiterFactory.getRateLimiterInstance(type).isRequestPossible(key);
             if (result) {
                 return new BaseResponse(0, "Success");
             }

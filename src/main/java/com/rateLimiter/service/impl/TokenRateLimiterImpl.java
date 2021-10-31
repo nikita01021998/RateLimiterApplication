@@ -1,20 +1,23 @@
-package com.rateLimiter.service;
+package com.rateLimiter.service.impl;
 
+import com.rateLimiter.service.RateLimiter;
 import javafx.util.Pair;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 
-import static com.rateLimiter.constants.RateLimitConstant.MAX_AMOUNT;
-
 @Service
-public class TokenRateLimiterImpl {
+public class TokenRateLimiterImpl implements RateLimiter {
     static HashMap<String, Pair<Integer, Long>> rateLimiterStore = new HashMap<>();
+    @Value("${rate.limiter.max.bucket.size}")
+    private int rateLimiterBucketSize;
 
-    public boolean checkRateLimiter(String key) {
+    @Override
+    public boolean isRequestPossible(String key) {
         if (!rateLimiterStore.containsKey(key)) {
-            rateLimiterStore.put(key, new Pair<>(MAX_AMOUNT, System.currentTimeMillis()));
+            rateLimiterStore.put(key, new Pair<>(rateLimiterBucketSize, System.currentTimeMillis()));
         } else {
             Pair<Integer, Long> p = rateLimiterStore.get(key);
             Integer currentCount = p.getKey();
@@ -24,7 +27,7 @@ public class TokenRateLimiterImpl {
             long diff = d2.getTime() - d1.getTime();
             long diffMinutes = diff / (60 * 1000);
             if (diffMinutes < 0) {
-                rateLimiterStore.put(key, new Pair<>(MAX_AMOUNT, System.currentTimeMillis()));
+                rateLimiterStore.put(key, new Pair<>(rateLimiterBucketSize, System.currentTimeMillis()));
             } else {
                 if (currentCount < 1) {
                     return false;

@@ -4,5 +4,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface RateLimiter {
-       boolean checkRateLimiter(String key, String type);
+    boolean isRequestPossible(String key);
 }
