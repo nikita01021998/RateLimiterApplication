@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 @Service
 public class TokenRateLimiterImpl implements RateLimiter {
-    static HashMap<String, Pair<Integer, Long>> rateLimiterStore = new HashMap<>();
+    HashMap<String, Pair<Integer, Long>> rateLimiterStore = new HashMap<>();
     @Value("${rate.limiter.max.bucket.size}")
     private int rateLimiterBucketSize;
 
