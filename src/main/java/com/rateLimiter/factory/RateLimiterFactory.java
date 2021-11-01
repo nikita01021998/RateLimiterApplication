@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class RateLimiterFactory {
 
-    final
-    TokenRateLimiterImpl tokenRateLimiter;
+    private final TokenRateLimiterImpl tokenRateLimiter;
 
-    final
-    LeakyBucketRateLimiterImpl leakyBucketRateLimiter;
+    final LeakyBucketRateLimiterImpl leakyBucketRateLimiter;
 
     final
     SlidingWindowRateLimiterImpl slidingWindowRateLimiter;
