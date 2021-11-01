@@ -2,7 +2,6 @@ package com.rateLimiter.processor;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -16,9 +15,8 @@ public class SlidingWindowRateLimiterProcessor {
         }
         int totalRequest = 0;
         TreeMap<Long, Integer> requestStore = windowStore.get(key);
-        Iterator hmIterator = requestStore.entrySet().iterator();
-        while (hmIterator.hasNext()) {
-            Map.Entry mapElement = (Map.Entry) hmIterator.next();
+        for (Map.Entry<Long, Integer> longIntegerEntry : requestStore.entrySet()) {
+            Map.Entry mapElement = (Map.Entry) longIntegerEntry;
             Long timestamp = (Long) mapElement.getValue();
             Integer count = (Integer) mapElement.getKey();
             if (timestamp > startTime) {
