@@ -12,9 +12,8 @@ public class LeakyBucketRateLimiterImpl implements RateLimiter {
     @Value("${leaky.rate.limiter.max.bucket.size}")
     private int rateLimiterBucketSize;
 
-    final
-    LeakyBucketRateLimiterProcessor leakyBucketRateLimiterProcessor;
-    Map<String, LeakyBucketRateLimiterProcessor> rateLimiterBucket = new HashMap<>();
+    private final LeakyBucketRateLimiterProcessor leakyBucketRateLimiterProcessor;
+    private Map<String, LeakyBucketRateLimiterProcessor> rateLimiterBucket = new HashMap<>();
 
     public LeakyBucketRateLimiterImpl(LeakyBucketRateLimiterProcessor leakyBucketRateLimiterProcessor) {
         this.leakyBucketRateLimiterProcessor = leakyBucketRateLimiterProcessor;

@@ -17,11 +17,10 @@ public class RateLimiterController {
         this.rateLimiterFactory = rateLimiterFactory;
     }
 
-    final
-    RateLimiterFactory rateLimiterFactory;
+    private final RateLimiterFactory rateLimiterFactory;
 
     @Value("${rate.limiter.type}")
-    String type;
+    private String type;
 
     @RequestMapping(
             value = "/requestPossible/{key}",
@@ -34,9 +33,9 @@ public class RateLimiterController {
             if (result) {
                 return new BaseResponse(0, "Success");
             }
-            return new BaseResponse(0, "Rate limit exceeded");
+            return new BaseResponse(429, "Rate limit exceeded");
         } catch (Exception e) {
-            return new BaseResponse(1, "Something went wrong.");
+            return new BaseResponse(500, "Something went wrong.");
         }
     }
 }

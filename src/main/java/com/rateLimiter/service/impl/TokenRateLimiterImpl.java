@@ -14,7 +14,7 @@ public class TokenRateLimiterImpl implements RateLimiter {
     @Value("${token.rate.limiter.max.bucket.size}")
     private int rateLimiterBucketSize;
 
-    HashMap<String, Pair<Integer, Long>> rateLimiterStore = new HashMap<>();
+    private HashMap<String, Pair<Integer, Long>> rateLimiterStore = new HashMap<>();
 
     @Override
     public boolean isRequestPossible(String key) {
