@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 @Service
 public class SlidingWindowRateLimiterProcessor {
-    private Map<String, TreeMap<Long, Integer>> windowStore;
+    private Map<String, TreeMap<Long, Integer>> windowStore = new TreeMap<>();
 
     public int getCurrentWindow(String key, Long startTime) {
         if (!windowStore.containsKey(key)) {
@@ -16,7 +16,7 @@ public class SlidingWindowRateLimiterProcessor {
         int totalRequest = 0;
         TreeMap<Long, Integer> requestStore = windowStore.get(key);
         for (Map.Entry<Long, Integer> longIntegerEntry : requestStore.entrySet()) {
-            Map.Entry mapElement = (Map.Entry) longIntegerEntry;
+            Map.Entry mapElement = longIntegerEntry;
             Long timestamp = (Long) mapElement.getValue();
             Integer count = (Integer) mapElement.getKey();
             if (timestamp > startTime) {
