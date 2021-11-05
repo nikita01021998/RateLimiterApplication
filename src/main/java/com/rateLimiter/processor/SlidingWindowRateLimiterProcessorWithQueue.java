@@ -1,13 +1,16 @@
 package com.rateLimiter.processor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 
+@Service
 public class SlidingWindowRateLimiterProcessorWithQueue {
-    class Pair {
+
+    private class Pair {
         Long key;
         Integer value;
 

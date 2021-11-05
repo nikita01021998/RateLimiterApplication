@@ -4,6 +4,7 @@ import com.rateLimiter.enums.RateLimiterEnum;
 import com.rateLimiter.service.RateLimiter;
 import com.rateLimiter.service.impl.LeakyBucketRateLimiterImpl;
 import com.rateLimiter.service.impl.SlidingWindowRateLimiterImpl;
+import com.rateLimiter.service.impl.SlidingWindowRateLimiterWithQueue;
 import com.rateLimiter.service.impl.TokenRateLimiterImpl;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +18,21 @@ public class RateLimiterFactory {
     final
     SlidingWindowRateLimiterImpl slidingWindowRateLimiter;
 
-    public RateLimiterFactory(SlidingWindowRateLimiterImpl slidingWindowRateLimiter, TokenRateLimiterImpl tokenRateLimiter, LeakyBucketRateLimiterImpl leakyBucketRateLimiter) {
+    private final SlidingWindowRateLimiterWithQueue slidingWindowRateLimiterWithQueue;
+
+    public RateLimiterFactory(SlidingWindowRateLimiterImpl slidingWindowRateLimiter, TokenRateLimiterImpl tokenRateLimiter, LeakyBucketRateLimiterImpl leakyBucketRateLimiter, SlidingWindowRateLimiterWithQueue slidingWindowRateLimiterWithQueue) {
         this.slidingWindowRateLimiter = slidingWindowRateLimiter;
         this.tokenRateLimiter = tokenRateLimiter;
         this.leakyBucketRateLimiter = leakyBucketRateLimiter;
+        this.slidingWindowRateLimiterWithQueue = slidingWindowRateLimiterWithQueue;
     }
 
 
     public RateLimiter getRateLimiterInstance(String type) {
-        return getRateLimiter(type, tokenRateLimiter, leakyBucketRateLimiter, slidingWindowRateLimiter);
+        return getRateLimiter(type, tokenRateLimiter, leakyBucketRateLimiter, slidingWindowRateLimiter, slidingWindowRateLimiterWithQueue);
     }
 
-    public static RateLimiter getRateLimiter(String type, TokenRateLimiterImpl tokenRateLimiter, LeakyBucketRateLimiterImpl leakyBucketRateLimiter, SlidingWindowRateLimiterImpl slidingWindowRateLimiter) {
+    public static RateLimiter getRateLimiter(String type, TokenRateLimiterImpl tokenRateLimiter, LeakyBucketRateLimiterImpl leakyBucketRateLimiter, SlidingWindowRateLimiterImpl slidingWindowRateLimiter, SlidingWindowRateLimiterWithQueue slidingWindowRateLimiterWithQueue) {
         switch (RateLimiterEnum.get(type)) {
             case TOKEN_RATE_LIMITER:
                 return tokenRateLimiter;
@@ -36,6 +40,8 @@ public class RateLimiterFactory {
                 return leakyBucketRateLimiter;
             case SLIDING_WINDOW_RATE_LIMITER:
                 return slidingWindowRateLimiter;
+            case SLIDING_WINDOW_RATE_LIMITER_WITH_QUEUE:
+                return slidingWindowRateLimiterWithQueue;
             default:
                 return null;
         }

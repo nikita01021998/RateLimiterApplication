@@ -9,7 +9,8 @@ public enum RateLimiterEnum {
     UNKONWN(0,"unknown"),
     TOKEN_RATE_LIMITER(1, "token"),
     LEAKY_BUCKET_RATE_LIMITER(2, "leaky"),
-    SLIDING_WINDOW_RATE_LIMITER(3, "slidingWindow");
+    SLIDING_WINDOW_RATE_LIMITER(3, "slidingWindow"),
+    SLIDING_WINDOW_RATE_LIMITER_WITH_QUEUE(4, "slidingWindowWithQueue");
 
     final private int value;
     final private String name;

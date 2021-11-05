@@ -2,19 +2,23 @@ package com.rateLimiter.service.impl;
 
 import com.rateLimiter.processor.*;
 import com.rateLimiter.service.RateLimiter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.rateLimiter.processor.SlidingWindowRateLimiterProcessorWithQueue.getStartTime;
 
+@Service
 public class SlidingWindowRateLimiterWithQueue implements RateLimiter {
 
-    @Autowired
-    private SlidingWindowRateLimiterProcessorWithQueue slidingWindowRateLimiterProcessorWithQueue;
+    private final SlidingWindowRateLimiterProcessorWithQueue slidingWindowRateLimiterProcessorWithQueue;
 
     private Map<String, SlidingWindowRateLimiterProcessorWithQueue> slidingWindowRateLimiterBucket = new HashMap<>();
+
+    public SlidingWindowRateLimiterWithQueue(SlidingWindowRateLimiterProcessorWithQueue slidingWindowRateLimiterProcessorWithQueue) {
+        this.slidingWindowRateLimiterProcessorWithQueue = slidingWindowRateLimiterProcessorWithQueue;
+    }
 
     @Override
     public boolean isRequestPossible(String key) {
