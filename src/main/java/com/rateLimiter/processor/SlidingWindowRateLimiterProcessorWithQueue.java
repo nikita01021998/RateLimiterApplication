@@ -65,11 +65,12 @@ public class SlidingWindowRateLimiterProcessorWithQueue {
 
     public void register(String key) {
         long now = System.currentTimeMillis();
+        Deque<Pair> que;
         if(!store.containsKey(key)) {
-           Deque<Pair> que = new ArrayDeque<>();
-           que.add(new Pair(now, 1));
+            que = new ArrayDeque<>();
+            que.add(new Pair(now, 1));
         } else {
-            Deque<Pair> que = store.get(key);
+            que = store.get(key);
             long lastTime = que.getLast().getKey();
             int lastValue = que.getLast().getValue();
             if(lastTime == now) {
@@ -77,5 +78,6 @@ public class SlidingWindowRateLimiterProcessorWithQueue {
             }
             que.addLast(new Pair(now, lastValue + 1));
         }
+        store.put(key, que);
     }
 }

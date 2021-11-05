@@ -36,5 +36,4 @@ public class SlidingWindowRateLimiterWithQueue implements RateLimiter {
         }
         return true;
     }
-
 }
