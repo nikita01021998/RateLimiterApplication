@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.rateLimiter.processor.SlidingWindowRateLimiterProcessorWithQueue.getStartTime;
-
 @Service
 public class SlidingWindowRateLimiterWithQueue implements RateLimiter {
 
@@ -22,18 +20,12 @@ public class SlidingWindowRateLimiterWithQueue implements RateLimiter {
 
     @Override
     public boolean isRequestPossible(String key) {
-        long startTime = getStartTime();
         if (slidingWindowRateLimiterBucket.containsKey(key)) {
             SlidingWindowRateLimiterProcessorWithQueue slidingWindowRateLimiterProcessorWithQueue = slidingWindowRateLimiterBucket.get(key);
-            int count = slidingWindowRateLimiterProcessorWithQueue.getCurrentWindow(key, startTime);
-            if (!slidingWindowRateLimiterProcessorWithQueue.allow(count)) {
-                return false;
-            }
-            slidingWindowRateLimiterProcessorWithQueue.register(key);
+            return slidingWindowRateLimiterProcessorWithQueue.isRequestPossible(key);
         } else {
-            slidingWindowRateLimiterProcessorWithQueue.register(key);
             slidingWindowRateLimiterBucket.put(key, slidingWindowRateLimiterProcessorWithQueue);
+            return slidingWindowRateLimiterProcessorWithQueue.isRequestPossible(key);
         }
-        return true;
     }
 }

@@ -63,6 +63,16 @@ public class SlidingWindowRateLimiterProcessorWithQueue {
         return count <= capacity;
     }
 
+    public boolean isRequestPossible(String key) {
+        long startTime = getStartTime();
+        int count = getCurrentWindow(key, startTime);
+        if (!allow(count)) {
+            return false;
+        }
+       register(key);
+       return true;
+    }
+
     public void register(String key) {
         long now = System.currentTimeMillis();
         Deque<Pair> que;
