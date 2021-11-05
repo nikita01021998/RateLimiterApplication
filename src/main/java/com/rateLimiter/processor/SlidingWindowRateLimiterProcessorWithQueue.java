@@ -41,7 +41,7 @@ public class SlidingWindowRateLimiterProcessorWithQueue {
         return startTime;
     }
 
-    public int getCurrentWindow(String key, long startTime) {
+    private int getCurrentWindow(String key, long startTime) {
         Deque<Pair> que = store.get(key);
         int prevCount = 0;
         while(!que.isEmpty()) {
@@ -59,7 +59,7 @@ public class SlidingWindowRateLimiterProcessorWithQueue {
         return 0;
     }
 
-    public boolean allow(int count) {
+    private boolean allow(int count) {
         return count <= capacity;
     }
 
@@ -73,7 +73,7 @@ public class SlidingWindowRateLimiterProcessorWithQueue {
        return true;
     }
 
-    public void register(String key) {
+    private void register(String key) {
         long now = System.currentTimeMillis();
         Deque<Pair> que;
         if(!store.containsKey(key)) {
